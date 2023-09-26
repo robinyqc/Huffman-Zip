@@ -36,7 +36,7 @@ std::string sbuf[256],*code=sbuf+128;
 signed main(int argc,char **argv) {
     std::string dic_dir;
     if(argc==1) {
-        fputs("[ERROR] Too many arguments! decode.exe SOURCE [DICTIONARY] [TARGET]",stderr);
+        fputs("[ERROR] Too many arguments! encode.exe SOURCE [TARGET] [DICTIONARY]",stderr);
         exit(-1);
     }
     else if(argc==2) {
@@ -52,11 +52,20 @@ signed main(int argc,char **argv) {
             exit(-1);
         }
         fin=fopen(argv[1],"rb");
-        dic_dir=argv[1];
+        dic_dir=argv[2];
+        fout=fopen(argv[2],"wb");
+    }
+    else if(argc==4) {
+        if(strcmp(argv[1],argv[2])==0) {
+            fputs("[ERROR] Source file and target file have same name.",stderr);
+            exit(-1);
+        }
+        fin=fopen(argv[1],"rb");
+        dic_dir=argv[3];
         fout=fopen(argv[2],"wb");
     }
     else {
-        fputs("[ERROR] Too many arguments! decode.exe SOURCE [DICTIONARY] [TARGET]",stderr);
+        fputs("[ERROR] Too many arguments! encode.exe SOURCE [TARGET] [DICTIONARY]",stderr);
         exit(-1);
     }
     dic_dir+=".dictionary";
